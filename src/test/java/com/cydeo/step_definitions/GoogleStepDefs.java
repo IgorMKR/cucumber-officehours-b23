@@ -1,10 +1,13 @@
 package com.cydeo.step_definitions;
 
+import com.cydeo.pages.GoogleSearchPage;
 import com.cydeo.utility.ConfigReader;
 import com.cydeo.utility.Driver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.junit.Assert;
+import org.openqa.selenium.Keys;
 
 public class GoogleStepDefs {
 
@@ -15,9 +18,10 @@ public class GoogleStepDefs {
 
 
     }
+
     @Then("User should see title is Google")
     public void user_should_see_title_is_google() {
-        String expectedTitle="Google";
+        String expectedTitle = "Google";
 
         String actualTitle = Driver.getDriver().getTitle();
 
@@ -25,4 +29,20 @@ public class GoogleStepDefs {
 
 
     }
+
+    GoogleSearchPage googleSearchPage = new GoogleSearchPage();
+
+    @When("user search for {string}")
+    public void user_search_for(String word) {
+        googleSearchPage.searchBar.sendKeys(word+ Keys.ENTER);
+    }
+
+    @Then("user should see {string} in title")
+    public void user_should_see_in_title(String expectedInTitle) {
+
+        String actualTitle = Driver.getDriver().getTitle();
+        Assert.assertTrue(actualTitle.contains(expectedInTitle));
+
+    }
+
 }
